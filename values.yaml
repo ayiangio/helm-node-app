@@ -13,6 +13,7 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+configmap: "node-cm"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -20,7 +21,7 @@ serviceAccount:
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # If not set and create is true, a name is gsenerated using the fullname template
   name: ""
 
 podAnnotations: {}
@@ -35,10 +36,15 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
 service:
+  enabled: true
   type: ClusterIP
   port: 80
+  dstPort: 3000
+  selector:
+    provider: containerImage
+    appname: 'nodejs'
+    version: v2
 
 ingress:
   enabled: false
